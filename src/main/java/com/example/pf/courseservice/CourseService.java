@@ -12,18 +12,19 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
+    }
+
+    public Optional<Course> getCourseById(Long courseId) {
+        return courseRepository.findById(courseId);
+    }
+
     public List<Course> getAvailableCourses() {
         return courseRepository.findByAvailableSeatsGreaterThan(0);
     }
 
-   
-    public Optional<Course> getCourseById(Long courseId) {
-        return courseRepository.findById(courseId);  
-    }
-
-    
     public Course addCourse(Course course) {
-        return courseRepository.save(course);  
+        return courseRepository.save(course);
     }
 }
