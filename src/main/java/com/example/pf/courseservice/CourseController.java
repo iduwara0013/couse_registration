@@ -13,18 +13,28 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-   
     @GetMapping("/available")
     public ResponseEntity<List<Course>> getAvailableCourses() {
         List<Course> courses = courseService.getAvailableCourses();
         return ResponseEntity.ok(courses);  
     }
 
-    
     @PostMapping("/add")
-public ResponseEntity<Course> addCourse(@RequestBody Course course) {
+public ResponseEntity<Course> addCourse(@RequestParam String name,
+                                        @RequestParam int credits,
+                                        @RequestParam int availableSeats) {
+    Course course = new Course();
+    course.setName(name);
+    course.setCredits(credits);
+    course.setAvailableSeats(availableSeats);
+
     Course createdCourse = courseService.addCourse(course);
-    return ResponseEntity.ok(createdCourse);  
+    return ResponseEntity.ok(createdCourse);
 }
 
+
+    
 }
+
+
+

@@ -11,22 +11,18 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
- 
     @PostMapping("/register")
-    public ResponseEntity<String> registerForCourse(@RequestParam String studentEmail,
-                                                    @RequestParam Long courseId) {
+    public ResponseEntity<String> registerForCourse(@RequestBody RegistrationRequest registrationRequest) {
         
-        if (studentEmail == null || studentEmail.isEmpty()) {
+        if (registrationRequest.getStudentEmail() == null || registrationRequest.getStudentEmail().isEmpty()) {
             return ResponseEntity.badRequest().body("Student email is required");
         }
-        if (courseId == null || courseId <= 0) {
+        if (registrationRequest.getCourseId() == null || registrationRequest.getCourseId() <= 0) {
             return ResponseEntity.badRequest().body("Invalid course ID");
         }
 
-        
-        String responseMessage = registrationService.registerForCourse(studentEmail, courseId);
+        String responseMessage = registrationService.registerForCourse(registrationRequest.getStudentEmail(), registrationRequest.getCourseId());
 
-       
         if (responseMessage.contains("Successfully")) {
             return ResponseEntity.ok(responseMessage);
         } else {
